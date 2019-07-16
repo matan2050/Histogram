@@ -10,6 +10,7 @@ Histogram::Histogram(const float* data, unsigned int dataLength, unsigned int nu
     binLength = (max - min) / (float)nBins;
 
     _FillBins(data, dataLength);
+    _SetBinRange(min, max);
 }
 
 void Histogram::_InitBuffers(unsigned int numBins)
@@ -32,7 +33,7 @@ void Histogram::_FindMinMax(const float* data, unsigned int dataLength, float& m
 
     min = *dataIndexer;
     max = *dataIndexer;
-    for (int i = 0; i < dataLength; i++, dataIndexer++)
+    for (; dataIndexer < data + dataLength; dataIndexer++)
     { 
         if (*dataIndexer > max) { max = *dataIndexer; }
         if (*dataIndexer < min) { min = *dataIndexer; }
@@ -44,9 +45,18 @@ void Histogram::_FillBins(const float* data, unsigned int dataLength)
     const float* dataIndexer = data;
     unsigned int bin;
 
-    for (int i = 0; i < dataLength; i++, dataIndexer++)
+    for (;dataIndexer < data + dataLength; dataIndexer++)
     {
         bin = (unsigned int)(*dataIndexer / binLength);
         binCounts[bin]++;
+    }
+}
+
+void Histogram::_SetBinRange(int min, int max)
+{
+    for (int i = 0; i < nBins; i++)
+    {
+        binMin[i] = min + i * binLength;
+        binMax[nBins - 1 - i] = max - i * binLength;
     }
 }

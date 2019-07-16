@@ -13,6 +13,7 @@ private:
     void _FinalizeBuffers();
     void _FindMinMax(const float* data, unsigned int dataLength, float& min, float& max);
     void _FillBins(const float* data, unsigned int dataLength);
+    void _SetBinRange(int min, int max);
 
 // members
 private:
