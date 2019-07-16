@@ -3,17 +3,17 @@
 int main()
 {
     // initialize buffer for histogram
-    int rawDataLength = 1024 * 1024;
-    float* rawData = new float[rawDataLength];
+    int raw_data_length = 1024 * 1024;
+    float* raw_data = new float[raw_data_length];
 
-    for (int i = 0; i < rawDataLength; i++)
+    for (int i = 0; i < raw_data_length; i++)
     {
-        rawData[i] = (float)i;
+        raw_data[i] = (float)i;
     }
 
-    int nBins = 100;
-    Histogram hist = Histogram(rawData, rawDataLength, nBins);
+    int num_bins = 100;
+    Histogram hist = Histogram(raw_data, raw_data_length, num_bins);
 
     // finalize unittest
-    delete[] rawData;
+    delete[] raw_data;
 }

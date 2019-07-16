@@ -1,25 +1,25 @@
 #pragma once
 
+#define PERCENT_TO_RATIO 1/100;
+
 class Histogram
 {
-// public methods
 public:
     Histogram(const float* data, unsigned int dataLength, unsigned int numBins);
-    void GetPercentileValue(float percentile) const;
+    float GetPercentileValue(float percentile) const;
 
-//private methods
 private:
-    void _InitBuffers(unsigned int numBins);
-    void _FinalizeBuffers();
-    void _FindMinMax(const float* data, unsigned int dataLength, float& min, float& max);
-    void _FillBins(const float* data, unsigned int dataLength);
-    void _SetBinRange(int min, int max);
+    void InitBuffers(unsigned int numBins);
+    void FinalizeBuffers();
+    void FindMinMax(const float* data, unsigned int dataLength, float& min, float& max);
+    void FillBins(const float* data, unsigned int dataLength);
+    void SetBinRange(int min, int max);
+    constexpr float ConvertPercentageToRatio() { return 1 / 100; }
 
-// members
-private:
-    float* binMax = nullptr;
-    float* binMin = nullptr;
-    unsigned int* binCounts = nullptr;
-    unsigned int nBins;
-    float binLength;
+    float* bin_max_ = nullptr;
+    float* bin_min_ = nullptr;
+    unsigned int* bin_counts_ = nullptr;
+    unsigned int num_bins_;
+    unsigned int total_num_elements_;
+    float bin_length_;
 };
