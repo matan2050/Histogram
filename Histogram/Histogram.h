@@ -14,7 +14,6 @@ private:
     void FindMinMax(const float* data, unsigned int dataLength, float& min, float& max);
     void FillBins(const float* data, unsigned int dataLength);
     void SetBinRange(int min, int max);
-    constexpr float ConvertPercentageToRatio() { return 1 / 100; }
 
     float* bin_max_ = nullptr;
     float* bin_min_ = nullptr;

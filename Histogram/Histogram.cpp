@@ -29,7 +29,7 @@ float Histogram::GetPercentileValue(float percentile) const
         }
     }
 
-    return bin_min_[corresponding_bin];
+    return (bin_min_[corresponding_bin] + bin_max_[corresponding_bin]) / 2;
 }
 
 void Histogram::InitBuffers(unsigned int num_bins)
