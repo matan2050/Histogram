@@ -1,17 +1,18 @@
 #pragma once
-#include <type_traits>
 
 class Histogram
 {
 // public methods
 public:
-    Histogram(float* rawData, unsigned int rawDataLength, unsigned int numBins);
-    void GetPercentileValue(float percentile);
+    Histogram(const float* data, unsigned int dataLength, unsigned int numBins);
+    void GetPercentileValue(float percentile) const;
 
 //private methods
 private:
     void _InitBuffers(unsigned int numBins);
     void _FinalizeBuffers();
+    void _FindMinMax(const float* data, unsigned int dataLength, float& min, float& max);
+    void _FillBins(const float* data, unsigned int dataLength);
 
 // members
 private:
