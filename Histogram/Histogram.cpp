@@ -3,6 +3,7 @@
 Histogram::Histogram(const float* data, unsigned int data_length, unsigned int num_bins)
 {
     num_bins_ = num_bins;
+    total_num_elements_ = data_length;
     InitBuffers(num_bins_);
 
     float min, max;
@@ -13,15 +14,23 @@ Histogram::Histogram(const float* data, unsigned int data_length, unsigned int n
     SetBinRange(min, max);
 }
 
+Histogram::~Histogram()
+{
+    FinalizeBuffers();
+}
+
 float Histogram::GetPercentileValue(float percentile) const
 {
-    unsigned int corresponding_bin;
+    unsigned int corresponding_bin = 0;
     unsigned int accumulated_elements = 0;
     for (int i = 0; i < num_bins_; i++)
     {
         accumulated_elements += bin_counts_[i];
         
-        float current_percentile = (accumulated_elements / total_num_elements_) * 100;
+        float current_percentile = 
+            (static_cast<float>(accumulated_elements) / 
+            static_cast<float>(total_num_elements_)) * 100.0f;
+
         if (current_percentile >= percentile)
         {
             corresponding_bin = i;
@@ -41,12 +50,12 @@ void Histogram::InitBuffers(unsigned int num_bins)
 
 void Histogram::FinalizeBuffers()
 {
+    delete[] bin_min_;
+    delete[] bin_max_;
     delete[] bin_counts_;
-    delete[] bin_min_;
-    delete[] bin_min_;
 }
 
-void Histogram::FindMinMax(const float* data, unsigned int data_length, float& min, float& max)
+void Histogram::FindMinMax(const float* data, unsigned int data_length, float& min, float& max) const
 {
     const float* data_indexer = data;
 
@@ -64,7 +73,7 @@ void Histogram::FillBins(const float* data, unsigned int data_length)
     const float* data_indexer = data;
     unsigned int bin;
 
-    for (;data_indexer < data + data_length; data_indexer++)
+    for (;data_indexer < data + data_length - 1; data_indexer++)
     {
         bin = (unsigned int)(*data_indexer / bin_length_);
         bin_counts_[bin]++;
